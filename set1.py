@@ -1,43 +1,61 @@
 # SET-1
-# FIRST Function (handles multiple productions and epsilon 'e')
-productions = []
-result = set()
+# Correct FIRST implementation (no global bugs)
 
-def FIRST(c):
-    if not c.isupper():
-        result.add(c)
-        return
-    for p in productions:
-        if p[0] == c:
-            rhs = p[3:]
-            i = 0
-            while i < len(rhs):
-                if rhs[i] == '|':
-                    i += 1
-                    continue
-                if rhs[i] == 'e':
+productions = {}
+
+def add_production(line):
+    lhs, rhs = line.split("->")
+    productions[lhs] = rhs.split("|")
+
+
+def FIRST(symbol):
+    result = set()
+
+    # If terminal → return directly
+    if not symbol.isupper():
+        return {symbol}
+
+    # For each production of symbol
+    for prod in productions[symbol]:
+
+        i = 0
+        while True:
+            # Case 1: epsilon
+            if prod[i] == 'e':
+                result.add('e')
+                break
+
+            # Case 2: terminal
+            if not prod[i].isupper():
+                result.add(prod[i])
+                break
+
+            # Case 3: non-terminal
+            temp = FIRST(prod[i])
+            result |= (temp - {'e'})   # add everything except epsilon
+
+            if 'e' in temp:
+                i += 1
+                if i >= len(prod):
                     result.add('e')
                     break
-                if not rhs[i].isupper():
-                    result.add(rhs[i])
-                    break
-                temp = set()
-                FIRST(rhs[i])
-                if 'e' not in result:
-                    break
-                else:
-                    result.discard('e')
-                    if i+1 >= len(rhs) or rhs[i+1] == '|':
-                        result.add('e')
-                i += 1
+            else:
+                break
 
-n = int(input())
+    return result
+
+
+# -------- MAIN --------
+n = int(input("Enter number of productions: "))
+
 for _ in range(n):
-    productions.append(input().strip())
+    line = input().strip()
+    add_production(line)
 
-symbol = input().strip()
-FIRST(symbol)
-print("FIRST =", result)
+symbol = input("Enter symbol: ").strip()
+
+ans = FIRST(symbol)
+print("FIRST =", ans)
 
 # Even binary
 s = input().strip()

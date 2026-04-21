@@ -1,31 +1,33 @@
 # SET-2
 
-inp = input().strip()
-i = 0
+s = input("Enter string: ")
 
-def S():
-    global i
-    if i < len(inp) and inp[i] == 'a':
-        i += 1
-    elif i < len(inp) and inp[i] == '(':
-        i += 1
-        L()
-        if i < len(inp) and inp[i] == ')':
-            i += 1
-        else:
-            print("Error")
-    else:
-        print("Error")
+# 1. Only allowed characters
+for ch in s:
+    if ch not in ['a', ',', '(', ')']:
+        print("Rejected")
+        exit()
 
-def L():
-    global i
-    S()
-    while i < len(inp) and inp[i] == ',':
-        i += 1
-        S()
+# 2. Balanced parentheses
+count = 0
+for ch in s:
+    if ch == '(':
+        count += 1
+    elif ch == ')':
+        count -= 1
+    if count < 0:
+        print("Rejected")
+        exit()
 
-S()
-print("Accepted" if i == len(inp) else "Rejected")
+if count != 0:
+    print("Rejected")
+    exit()
+
+# 3. Basic invalid patterns
+if ",)" in s or "(," in s or s.endswith(','):
+    print("Rejected")
+else:
+    print("Accepted")
 
 # Odd binary
 s = input().strip()

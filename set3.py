@@ -1,46 +1,43 @@
-# SET-3
+s = input("Enter expression: ")
 
-inp = input().strip()
-i = 0
+# 1. Replace 'id' with single symbol
+s = s.replace("id", "x")
 
-def E():
-    T()
-    Eprime()
+# 2. Check valid characters
+for ch in s:
+    if ch not in ['x', '+', '*', '(', ')']:
+        print("Rejected")
+        exit()
 
-def Eprime():
-    global i
-    if i < len(inp) and inp[i] == '+':
-        i += 1
-        T()
-        Eprime()
+# 3. Check parentheses balance
+count = 0
+for ch in s:
+    if ch == '(':
+        count += 1
+    elif ch == ')':
+        count -= 1
+    if count < 0:
+        print("Rejected")
+        exit()
 
-def T():
-    F()
-    Tprime()
+if count != 0:
+    print("Rejected")
+    exit()
 
-def Tprime():
-    global i
-    if i < len(inp) and inp[i] == '*':
-        i += 1
-        F()
-        Tprime()
+# 4. Invalid patterns
+invalid = ["++", "**", "+*", "*+", "(+", "(*", "+)", "*)"]
 
-def F():
-    global i
-    if i < len(inp) and inp[i] == '(':
-        i += 1
-        E()
-        if i < len(inp) and inp[i] == ')':
-            i += 1
-        else:
-            print("Error")
-    elif i+1 < len(inp) and inp[i]=='i' and inp[i+1]=='d':
-        i += 2
-    else:
-        print("Error")
+for p in invalid:
+    if p in s:
+        print("Rejected")
+        exit()
 
-E()
-print("Accepted" if i == len(inp) else "Rejected")
+# 5. Cannot start/end with operator
+if s[0] in ['+', '*'] or s[-1] in ['+', '*']:
+    print("Rejected")
+    exit()
+
+print("Accepted")
 
 # 3rd from right is 'a'
 s = input().strip()

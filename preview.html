@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Text Manipulation</title>
+
+    <style>
+        body{
+            font-family: Arial;
+            text-align: center;
+            margin-top: 50px;
+            background: #f2f2f2;
+        }
+
+        textarea,input{
+            width: 300px;
+            padding: 10px;
+        }
+
+        button{
+            padding: 10px 20px;
+            margin: 5px;
+            background: blue;
+            color: white;
+            border: none;
+        }
+
+        button:hover{
+            background: darkblue;
+        }
+
+        #result{
+            font-size: 18px;
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>Regex Text Manipulation</h2>
+
+<textarea id="text" rows="5" cols="40" placeholder="Enter text"></textarea>
+<br><br>
+
+<input type="text" id="search" placeholder="Search text">
+<br><br>
+
+<input type="text" id="replace" placeholder="Replace text">
+<br><br>
+
+<button onclick="findText()">Search</button>
+<button onclick="replaceText()">Replace</button>
+
+<h3>Result:</h3>
+<p id="result"></p>
+
+<script>
+function findText()
+{
+    let text = document.getElementById("text").value;
+    let search = document.getElementById("search").value;
+
+    let regex = new RegExp(search,"g");
+    let match = text.match(regex);
+
+    document.getElementById("result").innerHTML =
+        match ? match.join(", ") : "No Match Found";
+}
+
+function replaceText()
+{
+    let text = document.getElementById("text").value;
+    let search = document.getElementById("search").value;
+    let replace = document.getElementById("replace").value;
+
+    let regex = new RegExp(search,"g");
+    let output = text.replace(regex, replace);
+
+    document.getElementById("result").innerHTML = output;
+}
+</script>
+
+</body>
+</html>

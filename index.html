@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+        <link rel="stylesheet" href="styles.css"> 
+<body>
+<h2>Products</h2>
+
+<button onclick="addToCart('P1',10)">P1 (Rs.10)</button>
+<button onclick="addToCart('P2',15)">P2 (Rs.15)</button>
+
+<h2>Cart</h2>
+<ul id="cartItems"></ul>
+<p id="total">Total: Rs.0</p>
+
+<script src="sc.js"></script>
+</body>
+</html>
+
+body {
+    font-family: Arial;
+    padding: 20px;
+}
+
+button {
+    margin: 5px;
+    padding: 5px 10px;
+    background: lightcoral;
+    color: white;
+    border: none;
+}
+
+button:hover {
+    background: darkred;
+}
+
+#cartItems {
+    margin-top: 10px;
+}
+
+#total {
+    font-weight: bold;
+}
+
+let cart = [];
+
+function addToCart(name, price) {
+    let item = cart.find(i => i.name === name);
+    if (item) item.quantity++;
+    else cart.push({name, price, quantity:1});
+    updateCart();
+}
+
+function removeFromCart(name) {
+    cart = cart.filter(i => i.name !== name);
+    updateCart();
+}
+
+function updateCart() {
+    let list = document.getElementById("cartItems");
+    list.innerHTML = "";
+
+    cart.forEach(i => {
+        list.innerHTML += `${i.name} x ${i.quantity}
+        <button onclick="removeFromCart('${i.name}')">X</button><br>`;
+    });
+
+    let total = cart.reduce((t,i)=> t + i.price*i.quantity,0);
+    document.getElementById("total").innerHTML = "Total: Rs." + total;
+}
+
+<!DOCTYPE html>
+<html>
+<body>
+<button onclick="alert('Hello!')">Click Me</button>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html>
+<body>
+<button onclick="showMessage()">Click Me</button>
+<script>
+function showMessage() {
+  alert("Hello from Internal JS");
+}
+</script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html>
+<body>
+<button onclick="showMessage()">Click Me</button>
+<script src="script.js"></script>
+</body>
+</html>
+
+function showMessage() {
+  alert("Hello from External JS");
+}

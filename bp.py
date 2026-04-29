@@ -11,7 +11,7 @@ data['labelnum'] = data.Label.map({'pos':1, 'neg':0})
 X = data["Message"]
 Y = data["labelnum"]
 
-Xtrain, Xtest, Ytrain, Ytest = train_test_split(X, Y)
+Xtrain, Xtest, Ytrain, Ytest = train_test_split(X, Y, test_size=0.3, random_state=42)
 
 cv = CountVectorizer()
 

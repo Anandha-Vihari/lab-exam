@@ -2,26 +2,42 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.neural_network import MLPClassifier
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, confusion_matrix, precision_score, recall_score
 
-data = pd.read_csv("Statements_data.csv", names=['Message', 'Label'])
+msglbl_data = pd.read_csv('Statements_data.csv', names=['Message', 'Label'])
+print("The Total instances in the Dataset: ", msglbl_data.shape[0])
 
-data['labelnum'] = data.Label.map({'pos':1, 'neg':0})
+msglbl_data['labelnum'] = msglbl_data.Label.map({'pos': 1, 'neg': 0})
 
-X = data["Message"]
-Y = data["labelnum"]
+X = msglbl_data["Message"]
+Y = msglbl_data.labelnum
 
-Xtrain, Xtest, Ytrain, Ytest = train_test_split(X, Y, test_size=0.3, random_state=42)
+Xtrain, Xtest, Ytrain, Ytest = train_test_split(X, Y)
 
-cv = CountVectorizer()
+count_vect = CountVectorizer()
+Xtrain_dims = count_vect.fit_transform(Xtrain)
+Xtest_dims = count_vect.transform(Xtest)
 
-Xtrain_dtm = cv.fit_transform(Xtrain)
-Xtest_dtm = cv.transform(Xtest)
+df = pd.DataFrame(Xtrain_dims.toarray(), columns=count_vect.get_feature_names_out())
 
-model = MLPClassifier(hidden_layer_sizes=(5,2), max_iter=1000)
+clf = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(5, 2), random_state=1)
+clf.fit(Xtrain_dims, Ytrain)
 
-model.fit(Xtrain_dtm, Ytrain)
+prediction = clf.predict(Xtest_dims)
 
-pred = model.predict(Xtest_dtm)
+print('******** Accuracy Metrics *********')
+print('Accuracy : ', accuracy_score(Ytest, prediction)) 
+print('Recall : ', recall_score(Ytest, prediction)) 
+print('Precision : ', precision_score(Ytest, prediction))
+print('Confusion Matrix : \n', confusion_matrix(Ytest, prediction))
+print(10*"-")
 
-print("Accuracy:", accuracy_score(Ytest, pred))
+test_stmt = [input("Enter any statement to predict :")]
+test_dims = count_vect.transform(test_stmt)
+pred = clf.predict(test_dims)
+
+for stmt, lbl in zip(test_stmt, pred):
+    if lbl == 1:
+        print("Statement is Positive")
+    else:
+        print("Statement is Negative")

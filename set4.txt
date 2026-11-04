@@ -1,0 +1,525 @@
+# SET 4 – DevOps Lab Answers
+
+These are independently prepared practical answers for all three Set 4 questions, with installation commands, programs and execution steps.
+
+# Q1. Explore Docker Commands for Container Management
+
+Aim: To explore Docker commands for managing images, containers and volumes.
+
+## 1. Install Docker on Ubuntu
+
+```
+sudo apt update
+sudo apt upgrade -y
+
+sudo apt install docker.io -y
+```
+
+## 2. Start Docker Service
+
+```
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo systemctl status docker
+```
+
+## 3. Check Docker Version
+
+```
+docker --version
+docker info
+```
+
+## 4. Download Docker Image
+
+```
+sudo docker pull nginx
+```
+
+## 5. Display Docker Images
+
+```
+sudo docker images
+```
+
+## 6. Create and Run Container
+
+```
+sudo docker run -d -p 8080:80 --name mycontainer nginx
+```
+
+## 7. Display Running Containers
+
+```
+sudo docker ps
+```
+
+## 8. Display All Containers
+
+```
+sudo docker ps -a
+```
+
+## 9. View Container Logs
+
+```
+sudo docker logs mycontainer
+```
+
+## 10. Execute Commands Inside Container
+
+```
+sudo docker exec -it mycontainer bash
+```
+
+Exit container terminal:
+
+```
+exit
+```
+
+## 11. Stop Container
+
+```
+sudo docker stop mycontainer
+```
+
+## 12. Start Container
+
+```
+sudo docker start mycontainer
+```
+
+## 13. Restart Container
+
+```
+sudo docker restart mycontainer
+```
+
+## 14. Remove Container
+
+```
+sudo docker rm -f mycontainer
+```
+
+## 15. Remove Docker Image
+
+```
+sudo docker rmi nginx
+```
+
+## 16. Docker Volume Commands
+
+```
+sudo docker volume create myvolume
+sudo docker volume ls
+sudo docker volume inspect myvolume
+sudo docker volume rm myvolume
+```
+
+## 17. Docker Network Commands
+
+```
+sudo docker network ls
+sudo docker network create mynetwork
+sudo docker network inspect mynetwork
+sudo docker network rm mynetwork
+```
+
+Execution:
+
+Open browser:
+
+```
+http://localhost:8080
+```
+
+Output: Nginx welcome page appears.
+
+Result: Successfully explored Docker commands for container management.
+
+# Q2. Write a JavaScript Program and Perform Testing Using Selenium
+
+Aim: To write a JavaScript program and perform automated browser testing using Selenium WebDriver.
+
+## 1. Install Node.js and npm
+
+```
+sudo apt update
+sudo apt install nodejs npm -y
+```
+
+## 2. Check Versions
+
+```
+node --version
+npm --version
+```
+
+## 3. Create Project
+
+```
+mkdir selenium-project
+cd selenium-project
+```
+
+## 4. Initialize Node Project
+
+```
+npm init -y
+```
+
+## 5. Install Selenium WebDriver
+
+```
+npm install selenium-webdriver
+```
+
+## 6. Create JavaScript Program
+
+```
+touch index.js
+```
+
+Program: index.js
+
+```
+
+function add(a, b) {
+    return a + b;
+}
+
+function subtract(a, b) {
+    return a - b;
+}
+
+console.log("Addition:", add(10, 20));
+console.log("Subtraction:", subtract(20, 10));
+
+```
+
+## 7. Execute JavaScript Program
+
+```
+node index.js
+```
+
+Expected Output:
+
+```
+Addition: 30
+Subtraction: 10
+```
+
+## 8. Create HTML Page
+
+```
+touch index.html
+```
+
+Program: index.html
+
+```
+
+<html>
+<head>
+    <title>Selenium Testing</title>
+</head>
+<body>
+    <h1 id="heading">Welcome to Selenium Testing</h1>
+
+    <button id="btn" onclick="changeText()">
+        Click Me
+    </button>
+
+    <p id="result"></p>
+
+    <script>
+        function changeText() {
+            document.getElementById("result").innerHTML =
+                "Button Clicked Successfully";
+        }
+    </script>
+</body>
+</html>
+
+```
+
+## 9. Create Selenium Test
+
+```
+touch test.js
+```
+
+Program: test.js
+
+```
+
+const { Builder, By } = require('selenium-webdriver');
+
+async function test() {
+    let driver = await new Builder()
+        .forBrowser('chrome')
+        .build();
+
+    try {
+        await driver.get(
+            'file:///absolute/path/index.html'
+        );
+
+        let heading = await driver.findElement(
+            By.id('heading')
+        );
+
+        console.log(await heading.getText());
+
+        let button = await driver.findElement(
+            By.id('btn')
+        );
+
+        await button.click();
+
+        let result = await driver.findElement(
+            By.id('result')
+        );
+
+        console.log(await result.getText());
+
+    } finally {
+        await driver.quit();
+    }
+}
+
+test();
+
+```
+
+Replace `/absolute/path/index.html` with the actual absolute file path. Chrome and a compatible ChromeDriver/browser setup are required.
+
+## 10. Execute Selenium Test
+
+```
+node test.js
+```
+
+Expected Output:
+
+```
+Welcome to Selenium Testing
+Button Clicked Successfully
+```
+
+Result: Successfully executed a JavaScript program and performed automated browser testing using Selenium.
+
+# Q3. Integrate Kubernetes and Docker
+
+Aim: To integrate Docker and Kubernetes for deploying and managing containerized applications.
+
+## 1. Install Docker
+
+```
+sudo apt update
+sudo apt install docker.io -y
+
+sudo systemctl start docker
+sudo systemctl enable docker
+
+docker --version
+```
+
+## 2. Install kubectl
+
+```
+sudo snap install kubectl --classic
+```
+
+Verify:
+
+```
+kubectl version --client
+```
+
+## 3. Install Minikube
+
+```
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
+
+minikube version
+```
+
+## 4. Start Kubernetes Cluster
+
+```
+minikube start --driver=docker
+```
+
+Check cluster:
+
+```
+kubectl cluster-info
+kubectl get nodes
+```
+
+## 5. Create Project Directory
+
+```
+mkdir docker-kubernetes
+cd docker-kubernetes
+```
+
+## 6. Create HTML File
+
+```
+touch index.html
+```
+
+Program: index.html
+
+```
+
+<html>
+<head>
+    <title>Docker Kubernetes</title>
+</head>
+<body>
+    <h1>Hello from Docker and Kubernetes!</h1>
+</body>
+</html>
+
+```
+
+## 7. Create Dockerfile
+
+```
+touch Dockerfile
+```
+
+Dockerfile:
+
+```
+
+FROM nginx:latest
+
+COPY index.html /usr/share/nginx/html/
+
+EXPOSE 80
+
+```
+
+## 8. Build Docker Image
+
+```
+docker build -t myapp:v1 .
+```
+
+## 9. Load Image into Minikube
+
+```
+minikube image load myapp:v1
+```
+
+## 10. Create Kubernetes Deployment
+
+```
+touch deployment.yaml
+```
+
+Program: deployment.yaml
+
+```
+
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: myapp
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: myapp
+
+  template:
+    metadata:
+      labels:
+        app: myapp
+
+    spec:
+      containers:
+      - name: nginx
+        image: myapp:v1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+
+```
+
+## 11. Deploy Application
+
+```
+kubectl apply -f deployment.yaml
+```
+
+## 12. Check Running Pods
+
+```
+kubectl get pods
+```
+
+## 13. Expose Application
+
+```
+kubectl expose deployment myapp --type=NodePort --port=80
+```
+
+## 14. Check Services
+
+```
+kubectl get services
+```
+
+## 15. Open Application
+
+```
+minikube service myapp
+```
+
+The application opens in your browser.
+
+Expected Output:
+
+```
+Hello from Docker and Kubernetes!
+```
+
+## 16. Scale Application
+
+```
+kubectl scale deployment myapp --replicas=3
+```
+
+Check pods:
+
+```
+kubectl get pods
+```
+
+## 17. Delete Deployment and Service
+
+```
+kubectl delete service myapp
+
+kubectl delete deployment myapp
+```
+
+Stop Minikube:
+
+```
+minikube stop
+```
+
+Result: Successfully integrated Docker with Kubernetes and deployed a containerized web application.

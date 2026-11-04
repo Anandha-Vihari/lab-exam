@@ -1,0 +1,196 @@
+# SET 2 – Question 1: Git and GitHub Commands
+
+## 1. Install Git (Ubuntu)
+
+```
+sudo apt update
+sudo apt install git -y
+git --version
+```
+
+## 2. Configure Git
+
+```
+git config --global user.name "yourname"
+git config --global user.email "your@email.com"
+git config --list
+```
+
+## 3. Create GitHub Repository
+
+Create a repository named `sampleRepo` on GitHub.
+
+## 4. Create Local Repository
+
+```
+mkdir demo
+cd demo
+git init
+```
+
+## 5. Connect Remote Repository
+
+```
+git remote add origin https://github.com/username/sampleRepo.git
+```
+
+## 6. Create a File
+
+```
+touch myfile.txt
+vi myfile.txt
+```
+
+```
+Press i → Enter content → Esc → :wq → Enter
+```
+
+## 7. Add and Commit Files
+
+```
+git status
+git add .
+git commit -m "1st commit file added"
+```
+
+## 8. View Commit History
+
+```
+git log
+git show <commit-id>
+git status
+```
+
+## 9. Push to GitHub
+
+```
+git branch -M main
+git push -u origin main
+```
+
+## 10. Verify Repository
+
+Open your GitHub repository and check uploaded files.
+
+# SET 2 – Question 2: Jenkins CI/CD
+
+## 1. Install Java
+
+```
+sudo apt update
+sudo apt upgrade -y
+sudo apt install -y openjdk-21-jdk
+java --version
+```
+
+## 2. Install Jenkins
+
+```
+sudo mkdir -p /etc/apt/keyrings
+
+sudo wget -O /etc/apt/keyrings/jenkins-keyring.asc https://pkg.jenkins.io/debian-stable/jenkins.io-2026.key
+
+echo "deb [signed-by=/etc/apt/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/" | sudo tee /etc/apt/sources.list.d/jenkins.list
+
+sudo apt update
+sudo apt install jenkins -y
+```
+
+## 3. Start Jenkins
+
+```
+sudo systemctl enable jenkins
+sudo systemctl start jenkins
+sudo systemctl status jenkins
+```
+
+## 4. Get Administrator Password
+
+```
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+```
+
+## 5. Open Jenkins
+
+```
+http://localhost:8080
+```
+
+Install suggested plugins and create administrator account.
+
+## 6. Create Pipeline Job
+
+```
+Dashboard → New Item → CICD-Pipeline → Pipeline → OK
+```
+
+Paste the following Pipeline script:
+
+```
+pipeline {
+    agent any
+
+    stages {
+        stage('compile') {
+            steps {
+                echo "compiled successfully"
+            }
+        }
+
+        stage('unit') {
+            steps {
+                echo "unit test passed successfully"
+            }
+        }
+
+        stage('qualitycheck') {
+            steps {
+                echo "quality check passed successfully"
+            }
+        }
+
+        stage('deploy') {
+            steps {
+                echo "deployed successfully"
+            }
+        }
+    }
+
+    post {
+        always {
+            echo "This will always run"
+        }
+
+        success {
+            echo "This will run on success"
+        }
+
+        failure {
+            echo "This will run on failure"
+        }
+
+        unstable {
+            echo "This will run only if the run is marked as unstable"
+        }
+
+        changed {
+            echo "Pipeline changed"
+        }
+    }
+}
+```
+
+## 7. Execute Pipeline
+
+```
+Save → Build Now → Console Output
+```
+
+## 8. Jenkins Service Commands
+
+```
+sudo systemctl status jenkins
+sudo systemctl restart jenkins
+sudo systemctl stop jenkins
+sudo systemctl start jenkins
+```

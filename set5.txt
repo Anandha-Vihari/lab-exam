@@ -1,0 +1,141 @@
+# SET 5 – DevOps Lab
+
+## Q1. Student Registration Form
+
+### 1. Create Project Folder
+
+```
+mkdir registration
+cd registration
+```
+
+### 2. Create HTML and CSS Files
+
+```
+touch registration.html
+touch register.css
+```
+
+### 3. Open Project in VS Code
+
+```
+code .
+```
+
+### 4. Execute HTML File
+
+```
+start registration.html
+```
+
+### 5. Alternative
+
+Open `registration.html` manually in Google Chrome.
+
+Files required:
+
+- `registration.html`
+- `register.css`
+
+Paste the registration form HTML and CSS programs from Observation Experiment 1.
+
+## Q2. Git and GitHub – Source Code Management
+
+### 1. Create Local Repository
+
+```
+mkdir studentregistration
+cd studentregistration
+git init
+```
+
+### 2. Configure Git
+
+```
+git config --global user.name "username"
+git config --global user.email "user@gmail.com"
+git config --list
+```
+
+### 3. Connect GitHub Repository
+
+```
+git remote add origin <repository-url>
+```
+
+### 4. Create Source Files
+
+```
+vi registration.html
+vi register.css
+```
+
+Paste the registration form source code into both files and save.
+
+### 5. Check Status and Add Files
+
+```
+git status
+git add .
+```
+
+### 6. Commit Files
+
+```
+git commit -m "Added 2 files"
+git status
+```
+
+### 7. Push to Main Branch
+
+```
+git branch -M main
+git push -u origin main
+git status
+git log
+```
+
+### 8. Create New Branch
+
+```
+git checkout -b branch1
+git branch
+```
+
+### 9. Modify Registration File
+
+```
+vi registration.html
+```
+
+Make a small change and save.
+
+### 10. Add and Commit Changes
+
+```
+git add .
+git commit -m "made changes in text file on branch1"
+git status
+```
+
+### 11. Push New Branch
+
+```
+git push -u origin branch1
+git status
+```
+
+### 12. Switch to Main Branch
+
+```
+git checkout main
+```
+
+### 13. Merge Branch
+
+```
+git diff main
+git merge branch1
+git pull origin main
+git log
+```
